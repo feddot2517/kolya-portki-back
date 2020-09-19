@@ -38,7 +38,7 @@ app.post('/api/create', async (req, res) => {
         console.log(e);
     }
 
-    return res.status(200).send(`<script>alert('Ваша заявка успешно отправлена, ожилайте ответа!')</script>`);
+    return res.status(200).send(`<script>alert('Ваша заявка успешно отправлена, ожидайте ответа!')</script>`);
 })
 
 app.get('/api/get', async (req, res) => {
