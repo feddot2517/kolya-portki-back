@@ -13,6 +13,10 @@ const orderSchema = new mongoose.Schema({
         type: String,
         required: false,
     },
+    date: {
+        type: Date,
+        required: false,
+    }
 });
 
 module.exports = {Order: mongoose.model('Order', orderSchema, 'orders')};

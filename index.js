@@ -20,11 +20,13 @@ mongoose.connect('mongodb://localhost/agent', {
 const bot = new Telegraf("1049497121:AAH2KQyeNSMw0dtSXWS1yiEfinJboA6WMpU")
 
 bot.use(async (ctx, next) => {
-    let order = await Order.findOne();
-    return ctx.reply(`Имя:${order.name}, Email:${order.email}, Сообщение:${order.message}`)
+    let orders = await Order.find();
+    const message = orders.map(o=>`Имя: ${o.name}, Сообщение: ${o.message}, Почта: ${o.email}, Дата: ${o.date.toLocaleDateString()}`)
+    return ctx.reply(message.join('\n'))
 })
 
 app.post('/api/create', async (req, res) => {
+    req.body.date = new Date();
     const order = new Order(req.body);
     await order.save();
 
@@ -33,7 +35,7 @@ app.post('/api/create', async (req, res) => {
 
 app.get('/api/get', async (req, res) => {
     const orders = await Order.find();
-    const ord = orders.map((o)=> `<div>Имя: ${o.name}, Сообщение:${o.message}, Почта:${o.email}</div>`)
+    const ord = orders.map((o)=> `<div>Имя: ${o.name}, Сообщение:${o.message}, Почта:${o.email} Дата: ${o.date.toLocaleDateString()}</div>`)
     return res.status(200).send(ord.join('\n'));
 })
 
